@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors, HttpException, HttpStatus } from "@nestjs/common";
+import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors, HttpException, HttpStatus, CacheInterceptor } from "@nestjs/common";
 import { Customer } from "../models/customer.model";
 import { Result } from "../models/result.model";
 import { ValidatorInterceptor } from "src/interceptors/validator.inteceptor";
@@ -11,6 +11,8 @@ import { QueryDto } from "../dtos/query.dto";
 import { UpdateCustomerDto } from "../dtos/customer/update-customer.dto";
 import { UpdateCustomerContract } from "../contracts/customer/update-customer.contract";
 import { QueryContract } from "../contracts/query.contract";
+import { Md5 } from "md5-typescript";
+import env from '../../../shared/config/env';
 
 @Controller('v1/customers')
 export class CustomerController {
@@ -24,6 +26,7 @@ export class CustomerController {
     }
 
     @Get()
+    @UseInterceptors(CacheInterceptor)
     async getAll() {
         const customers = await this.customerService.findAll()
         return new Result(null, true, customers, null)
@@ -37,7 +40,8 @@ export class CustomerController {
     @UseInterceptors(new ValidatorInterceptor(new CreateCustomerContract()))
     async post(@Body() model: CreateCustomerDto) {
         try {
-            const user = await this.accountService.create(new User(model.document, model.password, false, ['user']));
+            const password = await Md5.init(`${model.password}${env.salt_key}`);
+            const user = await this.accountService.create(new User(model.document, password, false, ['user']));
             const customer = new Customer(model.name, model.document, model.email, [], null, null, null, user);
             const res = await this.customerService.create(customer);
             return new Result('Customer Created', true, res, null)   

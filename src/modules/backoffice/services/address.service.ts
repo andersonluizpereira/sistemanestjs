@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, HttpService } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from 'mongoose';
 import { Customer } from "../models/customer.model";
@@ -10,7 +10,10 @@ export class AddressService {
     /**
      *
      */
-    constructor(@InjectModel('Customer') private readonly model: Model<Customer>) {
+    constructor(@InjectModel('Customer') private readonly model: Model<Customer>,
+    private readonly httpService: HttpService
+    
+    ) {
 
     }
 
@@ -29,6 +32,11 @@ export class AddressService {
                 },
             }, options);
         }
+    }
+
+    getAddressByZipCode(zipcode: string) {
+        const url = `https://viacep.com.br/ws/${zipcode}/json/`;
+        return this.httpService.get(url);
     }
 
 }

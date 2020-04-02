@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/modules/backoffice/models/user.model';
 import { Customer } from '../models/customer.model';
 import { Md5 } from "md5-typescript";
+import env from "../../../shared/config/env"
 
 @Injectable()
 export class AccountService {
@@ -33,7 +34,7 @@ export class AccountService {
             .populate('user')
             .exec();
 
-        const pass = await Md5.init(`${password}${process.env.SALT_KEY}`);
+        const pass = await Md5.init(`${password}${env.salt_key}`);
         if (pass.toString() == customer.user.password.toString()) {
             return customer;
         } else {
