@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StoreModule } from './modules/store/store.module';
 import env from './shared/config/env';
+import { AgendaModule } from './modules/agenda/agenda.module';
 @Module({
   imports: [
     MongooseModule.forRoot(env.mongoUrl),
@@ -18,7 +19,8 @@ import env from './shared/config/env';
       synchronize: true,
     }),
     BackofficeModule,
-    StoreModule
+    StoreModule,
+    AgendaModule
   ],
   controllers: [],
   providers: [],

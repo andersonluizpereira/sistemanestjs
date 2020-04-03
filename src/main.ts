@@ -5,8 +5,7 @@ import * as compression from 'compression';
 import { setupSwagger } from './swagger';
 
 async function bootstrap() {
-  const appOptions = { cors: true };
-  const app = await NestFactory.create(AppModule, appOptions,{ logger: new CustomLogger() });
+  const app = await NestFactory.create(AppModule, { logger: new CustomLogger() });
   app.use(compression());
   setupSwagger(app);
   await app.listen(3000);
