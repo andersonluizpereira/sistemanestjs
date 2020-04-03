@@ -5,19 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { StoreModule } from './modules/store/store.module';
 import env from './shared/config/env';
 import { AgendaModule } from './modules/agenda/agenda.module';
+import { ormconfig } from './orm.config';
 @Module({
   imports: [
     MongooseModule.forRoot(env.mongoUrl),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'password',
-      database: 'store',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
-    }),
+    TypeOrmModule.forRoot(ormconfig),
     BackofficeModule,
     StoreModule
     //AgendaModule
