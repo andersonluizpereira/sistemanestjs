@@ -19,8 +19,8 @@ import { AgendaModule } from './modules/agenda/agenda.module';
       synchronize: true,
     }),
     BackofficeModule,
-    StoreModule,
-    AgendaModule
+    StoreModule
+    //AgendaModule
   ],
   controllers: [],
   providers: [],
