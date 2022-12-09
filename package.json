@@ -22,7 +22,7 @@
   "dependencies": {
     "@azure/storage-blob": "^10.3.0",
     "@nestjs/common": "^5.4.0",
-    "@nestjs/core": "^5.4.0",
+    "@nestjs/core": "^9.2.1",
     "@nestjs/cqrs": "^6.0.0",
     "@nestjs/jwt": "^6.0.0",
     "@nestjs/mongoose": "^5.2.2",
